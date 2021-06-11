@@ -1,6 +1,13 @@
 #include <SDL2/SDL.h>
 #include "constants.hpp"
 
+void destroy_window(SDL_Renderer *renderer, SDL_Window *window)
+{
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+}
+
 int main(int argc, char const *argv[])
 {
     // Initalize SDL components
@@ -32,8 +39,20 @@ int main(int argc, char const *argv[])
             }
 
             //Clear the Window to black
-            SDL_SetRenderDrawColor(renderer, 0x0, 0x0, 0x0, 0xFF);
+            SDL_SetRenderDrawColor(renderer, 30, 35, 41, 255);
             SDL_RenderClear(renderer);
+
+            // Set the draw color to be white
+            SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+
+            // Draw the net
+            for (int i = 0; i < WINDOW_HEIGHT; i++)
+            {
+                if (i % 5)
+                {
+                    SDL_RenderDrawPoint(renderer, WINDOW_WIDTH / 2, i);
+                }
+            }
 
             /**
              * Renderingwill happen here
@@ -44,9 +63,7 @@ int main(int argc, char const *argv[])
     }
 
     // Cleanup
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
+    destroy_window(renderer, window);
 
     return 0;
 }
